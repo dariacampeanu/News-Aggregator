@@ -1,31 +1,33 @@
 # Java News Aggregator
 
 ## Project Overview
-This project is a high-performance news processing engine built in Java. It is designed to handle large-scale datasets by leveraging multithreading to parse, filter, and analyze thousands of JSON files in parallel. The system ensures data integrity through advanced synchronization while maintaining high throughput.
+This project is a high-performance news aggregation system developed in Java. It is designed to process large volumes of news data by utilizing parallel execution to parse JSON files, filter content, and generate analytical reports. The system focuses on data integrity and processing speed through efficient thread management.
 
 ## Core Features
-- Multithreaded Processing: Implements a 5-phase execution model to handle data extraction and analysis.
-- Smart Deduplication: Identifies and filters duplicate articles based on unique UUIDs and titles.
-- Automated Analytics: Generates detailed reports on author activity, category distribution, and language-specific keyword frequency.
-- Thread-Safe Architecture: Utilizes ConcurrentHashMap, ConcurrentLinkedQueue, and AtomicInteger to manage shared data without race conditions.
-- Synchronization: Uses CyclicBarrier to coordinate thread phases, ensuring each step of the pipeline is completed before moving forward.
+- Parallel Data Extraction: Simultaneously reads and parses multiple JSON data sources to minimize I/O wait times.
+- Automated Deduplication: Identifies and removes redundant articles by cross-referencing unique UUIDs and titles.
+- Content Analytics: Extracts and categorizes information regarding authors, languages, and topics.
+- Keyword Analysis: Processes English-language articles to identify and frequency-rank key terms.
+- Thread-Safe Reporting: Generates consolidated output files and statistical reports from the processed data.
 
-## Technical Strategy
-The application uses a round-robin distribution strategy, where each thread is assigned specific indices to process. This approach prevents complex dynamic allocation overhead and ensures a balanced workload across all available CPU cores.
+## Technical Stack & Efficiency
+The application is built with a focus on thread safety and low-latency synchronization:
+- Multithreading: Uses a fixed-size thread pool with a round-robin workload distribution to ensure balanced CPU utilization.
+- Synchronization: Implements CyclicBarrier to coordinate processing phases, ensuring consistent state transitions.
+- Concurrent Collections: Utilizes ConcurrentHashMap and ConcurrentLinkedQueue for lock-free or low-lock data sharing.
+- Atomic Operations: Employs AtomicInteger for accurate, high-speed counter management across multiple threads.
+- JSON Processing: Integrated with the Jackson Databind library for efficient object mapping.
 
-## Performance and Scalability
-Testing conducted on an Apple M4 system (10 cores, 16GB RAM) demonstrated significant performance gains:
-- The system achieved a speedup of 2.64x when moving from 1 to 3 threads.
-- Efficiency remained high at 88% for 3 threads, showing that the synchronization overhead is well-managed for large datasets.
-- The analysis shows that for the tested dataset, 3 threads represent the optimal balance between performance and resource usage.
+## Project Structure
+- Tema1.java: Main entry point and execution flow control.
+- WorkerThread.java: Implementation of the parallel processing logic and phases.
+- SharedData.java: Centralized thread-safe storage for synchronized data access.
+- Article.java: Data model representing a news entry.
+- Utils.java: Utility class for file handling and path management.
 
-## Getting Started
+## Build and Run
 
-### Prerequisites
-- Java 21 LTS or higher
-- Jackson Databind library (included in libs/)
-
-### Installation and Build
-The project includes a Makefile for easy management. To compile the source files, run:
+### Compilation
+The project uses a Makefile for streamlined compilation. To build the application, run:
 ```bash
 make build
