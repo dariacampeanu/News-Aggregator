@@ -25,9 +25,3 @@ The application is built with a focus on thread safety and low-latency synchroni
 - Article.java: Data model representing a news entry.
 - Utils.java: Utility class for file handling and path management.
 
-## Build and Run
-
-### Compilation
-The project uses a Makefile for streamlined compilation. To build the application, run:
-```bash
-make build
